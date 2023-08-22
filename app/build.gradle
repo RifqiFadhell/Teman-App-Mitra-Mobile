@@ -1,0 +1,161 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlinx-serialization'
+    id 'dagger.hilt.android.plugin'
+    id 'kotlin-kapt'
+    id 'com.google.devtools.ksp' version '1.7.0-1.0.6'
+    id 'kotlin-parcelize'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+}
+
+android {
+
+    signingConfigs {
+        release {
+            storeFile file('/Users/RifqiFadhl/Documents/StudioProjects/TemanMitraApp/keystore.env') //Edit to your location Env
+            storePassword 'TemanApps001'
+            keyAlias 'teman'
+            keyPassword 'TemanApps001'
+        }
+    }
+
+    namespace 'id.teman.app.mitra'
+    compileSdk ConfigData.compileSdkVersion
+
+    defaultConfig {
+        applicationId "id.teman.app.mitra"
+        minSdk ConfigData.minSdkVersion
+        targetSdk ConfigData.targetSdkVersion
+        versionCode ConfigData.versionCode
+        versionName ConfigData.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
+    }
+
+    buildTypes {
+        debug {
+            debuggable true
+            Properties properties = new Properties()
+            properties.load(project.rootProject.file('local.properties').newDataInputStream())
+            manifestPlaceholders = [MAPS_API_KEY: "${properties.getProperty('MAPS_API_KEY')}"]
+            buildConfigField "String", "BASE_URL", properties.getProperty("STAG_URL")
+        }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            Properties properties = new Properties()
+            properties.load(project.rootProject.file('local.properties').newDataInputStream())
+            manifestPlaceholders = [MAPS_API_KEY: "${properties.getProperty('MAPS_API_KEY')}"]
+            buildConfigField "String", "BASE_URL", properties.getProperty("PROD_URL")
+            signingConfig signingConfigs.release
+        }
+    }
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.2.0'
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+    applicationVariants.all { variant ->
+        kotlin.sourceSets {
+            getByName(variant.name) {
+                kotlin.srcDir("build/generated/ksp/${variant.name}/kotlin")
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation project(path: ':coreui')
+    implementation Deps.android_core_ktx
+    implementation Deps.android_lifecycle
+
+    //compose
+    implementation Deps.compose_activity
+    implementation Deps.compose_ui
+    implementation Deps.compose_material
+    implementation Deps.compose_ui_manifest
+    implementation Deps.compose_ui_preview
+    implementation Deps.compose_ui_tooling
+    implementation Deps.landscapis_glide
+    implementation Deps.compose_lifecycle_runtime
+    implementation Deps.compose_lifecycle_viewmodel
+    implementation Deps.compose_lifecycle_viewmodel_ktx
+    implementation Deps.accompanist_pager
+    implementation Deps.accompanist_pager_indicator
+
+    // Kotlinx Serialization
+    implementation Deps.kotlin_serialization
+
+    // Dagger - Hilt
+    implementation Deps.hilt
+    implementation 'com.google.android.gms:play-services-location:19.0.1'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'id.zelory:compressor:3.0.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'com.google.firebase:firebase-config-ktx:21.4.0'
+    kapt Deps.hilt_kapt
+    implementation Deps.hilt_navigation
+
+    // chucker
+    debugImplementation Deps.chucker_debug
+    releaseImplementation Deps.chucker_release
+
+    implementation Deps.retrofit
+    implementation Deps.retrofit_serialization_converter
+    implementation Deps.okhttp
+    implementation Deps.okhttp_logging_interceptor
+
+    // compose navigation
+    implementation Deps.compose_destination_core_animation
+    ksp Deps.compose_destination_ksp
+
+    // compose animation
+    implementation Deps.compose_animation
+
+    // google map
+    implementation Deps.google_map_compose
+    implementation Deps.map_gms_play_service
+    implementation Deps.google_map_utils
+
+    // camerax
+    implementation Deps.camerax_camera2
+    implementation Deps.camerax_camera_extension
+    implementation Deps.camerax_camera_view
+    implementation Deps.camerax_core
+    implementation Deps.camerax_lifecycle
+
+    implementation Deps.image_cropper
+
+    // permission
+    implementation Deps.accompanist_permission
+    implementation Deps.splash_screen_api
+
+    implementation Deps.firebase_crashlytics
+    implementation Deps.firebase_analytics
+    implementation Deps.firebase_messaging
+
+    implementation Deps.data_store
+    implementation 'com.google.firebase:firebase-dynamic-links-ktx:21.1.0'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.2.2'
+}
+apply plugin: 'com.google.gms.google-services'

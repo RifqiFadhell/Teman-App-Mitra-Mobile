@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Teman App Mitra</string>
+    <string name="nav_bottom_home">Home</string>
+    <string name="nav_bottom_order">Order</string>
+    <string name="nav_bottom_menu">Menu</string>
+    <string name="nav_bottom_account">Account</string>
+
+<!--    camerax-->
+    <string name="take_camera_photo_title">Foto %s</string>
+    <string name="take_camera_photo_subtitle">Pastikan %s Kamu berada dikotak area foto yang tersedia, dan kami akan beritahu kalo foto siap diambil.</string>
+
+    <string name="registration_business_form_text">Agar pendaftaran tidak ditolak, pastikan nama usaha yang ditulis sama dengan yang tertera di lokasi offline outlet Kamu.
+        \n\nIsi nama usaha &amp; detail lokasi berupa kecamatan/kelurahan/nama gedung pada kolom yang sudah ditentukan, sehingga tampilan nama usaha Kamu jadi seperti contoh dibawah ini:</string>
+
+    <string name="registration_business_form_avoid_hint">1. Penggunaan nama usaha yang terlalu umum seperti ‘Kuliner’, ‘Warung Makan’, ‘Makanan’, dll.\n\n2. Penggunaan emoji, simbol, atau ikon.\n\n3. Harap tidak menulis dengan huruf kapital semua</string>
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+
+</resources>
